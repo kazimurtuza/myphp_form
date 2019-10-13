@@ -138,7 +138,7 @@ if(mysqli_query($conndb,$quritb))
         echo $rownumber;
         if($rownumber>0)
         {
-            
+        
           echo"  <div class='container'>";
             
            echo' <table class="table">';
@@ -168,6 +168,13 @@ if(mysqli_query($conndb,$quritb))
                 <input type='submit' name='delete' value='delete' class='btn btn-danger'>
                 </form>
                 </td>";
+                echo"<td>";
+                echo "<form action='' method='POST'>
+                <input type='text' name='id' value=".$row['id'].">
+                <input type='submit'name='update' class='btn btn-success' value='update'>
+                </form>";
+                
+                echo"</td>";
                echo" </tr>";
 
             }
@@ -177,8 +184,88 @@ if(mysqli_query($conndb,$quritb))
              echo"</div>";
 
         }
-             
+          
         ?>
+        
+       
+     
+
+        
+
+        <!-- /////////////////update value//////////////  -->
+        <?php
+        if(isset($_REQUEST['update'])){
+            echo $_REQUEST['id'];
+        
+        $quryro="SELECT * FROM form_tb WHERE id={$_REQUEST['id']}";
+        $get=mysqli_query($conndb,$quryro);
+        $getset=mysqli_fetch_assoc($get);
+        // print_r($getset);
+       echo $name = $getset['name'];
+      echo  $phon = $getset['phon'];
+      echo  $country= $getset['country'];
+       echo $sallary= $getset['sallary'];
+        }
+        
+        
+        {?>
+        <div class="container">
+            <div class="row">
+        <form class="form" action="" method="POST">
+            <div class="form-group">
+                <label for="">
+                    name:
+                </label>
+                <input type="text" name="name" value="<?php if(isset($getset['name'])) {echo $name;}
+                ?>" class="form-control">
+            </div>
+           <div class="from-group">
+               <label for="">phon</label>
+               <input type="text" name="phon" value="<?php if(isset($phon)) {echo $phon;}             //becouse $phon=$getset['phon'] define in top
+                ?>" class="form-control">
+           </div>
+           <div class="form-group">
+               <label for="">country</label>
+               <input type="text" name="country" value="<?php if(isset($country)) {echo $country;}
+                ?>" class="form-control">
+           </div>
+           <div class="form-group">
+               <label for="sallary">sallary</label>
+               <input type="text" name="sallary" value="<?php if(isset($sallary)) {echo $sallary;}
+                ?>"class="form-control">
+           
+               </div>
+                <input type="hidden" name="id" value="<?php if($getset['id']) {echo $getset['id'];} ?>" >
+               <input type="submit" name="updatebtn" class="btn btn-info" value="update">
+
+        </form>
+        </div>
+           </div>
+        <?php }
+        if(isset($_REQUEST['updatebtn']))
+        {
+            $namec = $_REQUEST['name'];
+            $phonc = $_REQUEST['phon'];
+            $countryc = $_REQUEST['country'];
+            $sallaryc = $_REQUEST['sallary'];
+            $id = $_REQUEST['id'];
+            if($namec!==""||$phonc!==""||$countryc!==""||$sallaryc!==""){
+            $updatequery="UPDATE form_tb  SET name='$namec',phon='$phonc' ,country=' $countryc',sallary='$sallaryc' WHERE id={$_REQUEST['id']} ";
+            $setque=mysqli_query($conndb,$updatequery);
+            if(isset($setque)){echo "update success";};
+            }
+            else{
+                echo "edit is not success";
+            }
+        }
+        
+        
+        ?>
+          
+
+
+        
+        
 
 
     <!-- Optional JavaScript -->
