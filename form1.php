@@ -153,7 +153,7 @@ if(mysqli_query($conndb,$quritb))
             echo"</tr>";
             
             echo"</thead>";
-              
+              kk
             echo"<tbody>";
             while($row=mysqli_fetch_assoc($gettable))
             {
